@@ -1,80 +1,117 @@
-# AgentX-Tech-Divas-ps2
 # AgentX: Adaptive Maze Runner (Gamified RL Simulation)
 
-### 🚩 Problem Statement Chosen
-**Problem Statement 2: Gamified Learning Environment for AgentX**
-We have developed a high-fidelity simulation where an autonomous agent (**AgentX**) is placed in a complex, grid-based maze environment. The goal is to demonstrate intelligent behavior through evolved navigation strategies, using a reward-based economy to drive decision-making without manual reprogramming.
+> **Play it live →** `https://<your-github-username>.github.io/AgentX-Tech-Divas-ps2/`  
+> *(URL becomes active after your first push to `main` and GitHub Pages is enabled)*
 
 ---
 
-### 🧠 Approach Overview
-The project implements a **Value-Based Reinforcement Learning** system utilizing the **Q-Learning** algorithm.
-
-#### 1. The Agent (AgentX)
-* **Observation**: The agent perceives its environment as a set of discrete coordinates $(r, c)$.
-* **Action Space**: The agent can perform four discrete actions: Move **UP, DOWN, LEFT,** or **RIGHT**.
-* **Memory (Q-Table)**: AgentX maintains an internal table where it stores and updates the "quality" (Q-value) of every possible action in every possible state.
-
-#### 2. The Environment
-* **Gamified Grid**: A $15 \times 15$ maze featuring purple obstacles and a high-value Green Goal.
-* **Camera Manager**: A dynamic viewport that centers on the agent, providing a focused, immersive experience and allowing for larger world exploration.
-* **Reward Economy**:
-    * **Success (+100)**: Reaching the target.
-    * **Collision Penalty (-10)**: Hitting a wall.
-    * **Living Tax (-1)**: Every move costs a point, forcing the agent to find the *shortest* path.
-
-#### 3. The Flow
-1. **Exploration**: Initially, AgentX takes random actions to discover the environment (high Epsilon).
-2. **Learning**: After every step, the agent updates its Q-Table based on the reward received.
-3. **Exploitation**: Over time, the agent's randomness decays, and it begins to rely on its "learned" knowledge to navigate perfectly.
-
-
+### 🚩 Problem Statement
+**Problem Statement 2: Gamified Learning Environment for AgentX**  
+An autonomous agent (AgentX) navigates a complex cyberpunk maze using Q-Learning reinforcement learning — demonstrating intelligent behavior through evolved navigation strategies and a reward-based economy.
 
 ---
 
+### 🧠 Approach
 
-🛠️ Execution Instructions
-Add this section to your README.md to guide the researchers through the process:
+**Value-Based Reinforcement Learning using Q-Learning**
 
-Execution Guide
-Follow these steps to set up and run the AgentX simulation on your local machine.
+- **Observation**: Agent perceives discrete grid coordinates (r, c)
+- **Action Space**: UP, DOWN, LEFT, RIGHT
+- **Memory (Q-Table)**: Stores and updates quality values for every state-action pair
+- **Reward Economy**:
+  - `+5000` — Reaching the goal
+  - `+200` — New tile, moving closer to goal
+  - `+20`  — New tile, moving away from goal
+  - `-5`   — Each step taken (time cost)
+  - `-50`  — Hitting a wall
+  - `-50`  — Revisiting a tile (anti-loop penalty)
 
-1. Prerequisites
-Ensure you have Python 3.8+ installed. You can verify this by running:
+---
 
-Bash
+### 🎮 Controls
 
-python --version
-2. Set Up a Virtual Environment (Optional but Recommended)
-It is best practice to run the project in an isolated environment to avoid conflicts with other libraries:
+| Key | Action |
+|-----|--------|
+| `T` | Toggle Training / Testing mode |
+| `H` | Toggle hint path overlay |
+| `↑ / ↓` | Increase / decrease simulation speed |
+| `SPACE` | Continue to next episode (on dashboard) |
+| `R` | Generate new random maze (in placement mode) |
+| `ENTER` | Start episode (in placement mode) |
+| `ESC` | Quit |
 
-Bash
+---
 
-# Create the environment
-python -m venv venv
+### 🚀 Hosting — GitHub Pages via Pygbag (WebAssembly)
 
-# Activate it (Windows)
-venv\Scripts\activate
+This project is compiled to WebAssembly using [Pygbag](https://pygame-web.github.io/) and hosted free on GitHub Pages.
 
-# Activate it (Mac/Linux)
-source venv/bin/activate
-3. Install Required Libraries
-Install the core dependencies (Pygame for the engine and NumPy for the Q-table math):
+#### One-time GitHub setup (do this once):
 
-Bash
+1. Push this repo to GitHub:
+   ```bash
+   git add .
+   git commit -m "initial commit"
+   git push origin main
+   ```
 
-pip install pygame numpy
-Note: If you have a requirements.txt file, you can simply run pip install -r requirements.txt.
+2. Go to your repo on GitHub → **Settings** → **Pages**
 
-4. Launch the Agent
-Run the main script to start the learning simulation:
+3. Under **Source**, select **GitHub Actions**
 
-Bash
+4. That's it. The workflow in `.github/workflows/deploy.yml` will automatically build and deploy on every push to `main`.
 
+5. Your live URL will be:
+   ```
+   https://<your-github-username>.github.io/AgentX-Tech-Divas-ps2/
+   ```
+
+#### Run locally (optional):
+
+```bash
+# Install dependencies
+pip install pygame==2.5.2 numpy==1.26.4 pygbag==0.9.2
+
+# Run locally in browser (opens at http://localhost:8000)
+pygbag .
+
+# Or run as a normal desktop app
 python main.py
-🎮 In-Simulation Controls
-Once the window opens, use these keys to interact with the environment:
+```
 
-+ / -: Adjust the Time Speed Multiplier (x0.1 to x10.0) to speed up training or slow down for analysis.
+---
 
-ESC: Safely exit the simulation.
+### 🛠️ Local Desktop Setup
+
+```bash
+# Clone the repo
+git clone https://github.com/<your-username>/AgentX-Tech-Divas-ps2.git
+cd AgentX-Tech-Divas-ps2
+
+# Optional: create a virtual environment
+python -m venv venv
+venv\Scripts\activate      # Windows
+source venv/bin/activate   # Mac/Linux
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run
+python main.py
+```
+
+---
+
+### 📁 Project Structure
+
+```
+AgentX-Tech-Divas-ps2/
+├── main.py          # Game loop (async, pygbag-compatible)
+├── agent.py         # Q-Learning agent
+├── config.py        # Grid size, colors
+├── requirements.txt # Python dependencies
+├── favicon.png      # Browser tab icon
+└── .github/
+    └── workflows/
+        └── deploy.yml   # Auto-deploy to GitHub Pages
+```

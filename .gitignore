@@ -1,0 +1,22 @@
+# Pygbag build output (GitHub Actions rebuilds this)
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+*.egg
+
+# Virtual environments
+venv/
+.env/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
